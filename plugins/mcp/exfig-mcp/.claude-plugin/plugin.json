@@ -1,0 +1,8 @@
+{
+  "name": "exfig-mcp",
+  "description": "ExFig MCP server integration — validate configs, inspect Figma resources, export tokens",
+  "version": "1.0.0",
+  "author": {
+    "name": "DesignPipe"
+  }
+}

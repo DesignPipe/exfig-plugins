@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "exfig": {
+      "command": "exfig",
+      "args": ["mcp"],
+      "env": {
+        "FIGMA_PERSONAL_TOKEN": "${FIGMA_PERSONAL_TOKEN}"
+      }
+    }
+  }
+}

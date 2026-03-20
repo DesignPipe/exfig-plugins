@@ -1,0 +1,59 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "exfig-plugins",
+  "description": "ExFig plugin marketplace — Claude Code plugins for Figma design export",
+  "owner": {
+    "name": "DesignPipe"
+  },
+  "plugins": [
+    {
+      "name": "exfig-mcp",
+      "description": "ExFig MCP server integration — validate configs, inspect Figma resources, export tokens",
+      "version": "1.0.0",
+      "source": "./plugins/mcp/exfig-mcp",
+      "category": "development"
+    },
+    {
+      "name": "exfig-setup",
+      "description": "Interactive setup wizard: install ExFig, configure Figma token, generate PKL config, first export",
+      "version": "1.0.0",
+      "source": "./plugins/skills/exfig-setup",
+      "category": "development"
+    },
+    {
+      "name": "exfig-config-review",
+      "description": "Review and optimize exfig.pkl configuration — detect issues, suggest improvements",
+      "version": "1.0.0",
+      "source": "./plugins/skills/exfig-config-review",
+      "category": "development"
+    },
+    {
+      "name": "exfig-troubleshooting",
+      "description": "Diagnose ExFig errors — error catalog, common fixes, environment checks",
+      "version": "1.0.0",
+      "source": "./plugins/skills/exfig-troubleshooting",
+      "category": "development"
+    },
+    {
+      "name": "exfig-migration",
+      "description": "Migrate ExFig between major versions — breaking changes, config updates, deprecations",
+      "version": "1.0.0",
+      "source": "./plugins/skills/exfig-migration",
+      "category": "development"
+    },
+    {
+      "name": "exfig-export",
+      "description": "Slash commands for ExFig exports: /export-colors, /export-icons, /export-images, /export-all",
+      "version": "1.0.0",
+      "source": "./plugins/commands/exfig-export",
+      "category": "development"
+    },
+    {
+      "name": "exfig-rules",
+      "description": "Coding conventions for projects using ExFig — naming, structure, CI patterns",
+      "version": "1.0.0",
+      "source": "./plugins/rules/exfig-rules",
+      "category": "development"
+    }
+  ]
+}

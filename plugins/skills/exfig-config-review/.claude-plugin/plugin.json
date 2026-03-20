@@ -1,0 +1,8 @@
+{
+  "name": "exfig-config-review",
+  "description": "Review and optimize exfig.pkl configuration files",
+  "version": "1.0.0",
+  "author": {
+    "name": "DesignPipe"
+  }
+}

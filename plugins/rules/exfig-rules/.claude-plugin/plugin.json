@@ -1,0 +1,8 @@
+{
+  "name": "exfig-rules",
+  "description": "Coding conventions for projects using ExFig",
+  "version": "1.0.0",
+  "author": {
+    "name": "DesignPipe"
+  }
+}

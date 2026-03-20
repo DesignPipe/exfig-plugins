@@ -1,0 +1,8 @@
+{
+  "name": "exfig-troubleshooting",
+  "description": "Diagnose and fix ExFig errors with guided troubleshooting",
+  "version": "1.0.0",
+  "author": {
+    "name": "DesignPipe"
+  }
+}

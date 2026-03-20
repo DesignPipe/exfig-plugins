@@ -1,0 +1,8 @@
+{
+  "name": "exfig-migration",
+  "description": "Migrate ExFig between major versions — breaking changes and config updates",
+  "version": "1.0.0",
+  "author": {
+    "name": "DesignPipe"
+  }
+}

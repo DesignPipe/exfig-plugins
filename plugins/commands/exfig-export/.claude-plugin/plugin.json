@@ -1,0 +1,8 @@
+{
+  "name": "exfig-export",
+  "description": "Slash commands for ExFig exports: colors, icons, images, and batch",
+  "version": "1.0.0",
+  "author": {
+    "name": "DesignPipe"
+  }
+}

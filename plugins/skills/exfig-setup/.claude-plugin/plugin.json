@@ -1,0 +1,8 @@
+{
+  "name": "exfig-setup",
+  "description": "Interactive setup wizard for ExFig — install, configure, and run first export",
+  "version": "1.0.0",
+  "author": {
+    "name": "DesignPipe"
+  }
+}
