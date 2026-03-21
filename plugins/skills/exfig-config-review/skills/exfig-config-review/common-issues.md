@@ -88,6 +88,45 @@ icons = new Listing {
 }
 ```
 
+## Penpot Config Issues
+
+### Missing penpotSource.fileId
+```pkl
+// BAD — penpotSource without fileId
+penpotSource = new Common.PenpotSource {}
+
+// GOOD
+penpotSource = new Common.PenpotSource {
+  fileId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+}
+```
+
+### Both Figma and Penpot source set
+```pkl
+// WARNING — both sources configured on one entry
+new iOS.ColorsEntry {
+  figmaFileId = "ABC123"
+  penpotSource = new Common.PenpotSource { fileId = "..." }
+}
+```
+When both are set, `resolvedSourceKind` auto-detects Penpot (it takes priority). Remove the unused `figmaFileId` to avoid confusion.
+
+### pathFilter too specific
+```pkl
+// BAD — overly specific, may match nothing
+penpotSource = new Common.PenpotSource {
+  fileId = "..."
+  pathFilter = "Brand/Colors/Primary/Light"
+}
+
+// BETTER — broader filter, or remove entirely
+penpotSource = new Common.PenpotSource {
+  fileId = "..."
+  pathFilter = "Brand"  // matches Brand/Colors, Brand/Primary, etc.
+}
+```
+If export is empty, try removing `pathFilter` first to verify assets exist in the library.
+
 ## Optimization Suggestions
 
 ### DRY with local Mapping

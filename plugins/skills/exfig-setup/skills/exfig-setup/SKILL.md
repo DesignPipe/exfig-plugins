@@ -34,6 +34,10 @@ brew install pkl
 mise use pkl@latest
 ```
 
+### 1.3 Determine design source
+Ask the user: "Are you using **Figma** or **Penpot** as your design source?"
+If Penpot, use Phase 2b instead of Phase 2.
+
 ## Phase 2: Figma Token
 
 ### 2.1 Check token
@@ -56,6 +60,28 @@ For CI environments, recommend using repository secrets:
 ```yaml
 env:
   FIGMA_PERSONAL_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+```
+
+## Phase 2b: Penpot Token (if Penpot source)
+
+### 2b.1 Check token
+```bash
+echo ${PENPOT_ACCESS_TOKEN:+"Token is set"} || echo "Token not set"
+```
+
+**If token is not set**, guide the user:
+1. Open Penpot → Settings → Access Tokens
+2. Create a new access token (no expiration recommended for CI)
+3. Add to shell profile:
+```bash
+# Add to ~/.zshrc or ~/.bashrc
+export PENPOT_ACCESS_TOKEN="your-token-here"
+```
+
+For CI environments, recommend using repository secrets:
+```yaml
+env:
+  PENPOT_ACCESS_TOKEN: ${{ secrets.PENPOT_TOKEN }}
 ```
 
 ## Phase 3: Project Analysis
@@ -85,15 +111,23 @@ ls exfig.pkl 2>/dev/null
 
 If `exfig.pkl` exists, skip to Phase 5 (validation).
 
-### 3.3 Ask for Figma file
-Ask the user for their Figma file URL or ID. ExFig can extract the file ID from full URLs:
+### 3.3 Ask for design file
+**For Figma:** Ask the user for their Figma file URL or ID. ExFig can extract the file ID from full URLs:
 - Full URL: `https://www.figma.com/design/ABC123/MyDesign`
 - Just ID: `ABC123`
+
+**For Penpot:** Ask the user for their Penpot workspace URL or file UUID:
+- Full URL: `https://design.penpot.app/#/workspace/PROJECT_ID?file-id=FILE_UUID` — extract the `file-id` parameter
+- Just UUID: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
+
+For self-hosted Penpot, also ask for the base URL (e.g., `https://penpot.mycompany.com/`).
 
 ## Phase 4: Config Generation
 
 ### 4.1 Try MCP discovery first
-If exfig MCP is available, use `exfig_inspect` with `resource_type=all` to discover what's in the Figma file. This gives us:
+**Note:** `exfig_inspect` is not available for Penpot sources. For Penpot, skip to 4.2 and manually configure based on what the user describes in their Penpot file.
+
+If exfig MCP is available (Figma source only), use `exfig_inspect` with `resource_type=all` to discover what's in the Figma file. This gives us:
 - Color styles count and sample names
 - Icon components count
 - Image assets
@@ -143,6 +177,11 @@ If export fails, check:
 1. Is `FIGMA_PERSONAL_TOKEN` valid? (401 error)
 2. Is the Figma file ID correct? (404 error)
 3. Are frame names in config matching Figma? (empty export)
+
+**For Penpot sources, also check:**
+4. Is `PENPOT_ACCESS_TOKEN` valid?
+5. Is the Penpot file UUID correct? (must be UUID format)
+6. Are library colors/components/typographies set up in the shared library? (assets on canvas only are not exported)
 
 For persistent errors, suggest the troubleshooting skill.
 

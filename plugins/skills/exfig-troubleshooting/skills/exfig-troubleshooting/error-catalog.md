@@ -55,6 +55,44 @@ exfig inspect --resource-type icons -i exfig.pkl
 ```
 Then update `figmaFrameName` in config to match.
 
+## Penpot API Errors
+
+### PENPOT_ACCESS_TOKEN not set
+**Message:** `PENPOT_ACCESS_TOKEN environment variable is not set`
+**Cause:** Token not in shell environment
+**Fix:**
+```bash
+export PENPOT_ACCESS_TOKEN="your-token-here"
+# Add to ~/.zshrc for persistence
+echo 'export PENPOT_ACCESS_TOKEN="your-token-here"' >> ~/.zshrc
+```
+
+### Penpot 401 Unauthorized
+**Message:** `Penpot API error: 401 Unauthorized`
+**Cause:** Access token expired or invalid
+**Fix:**
+1. Go to Penpot → Settings → Access Tokens
+2. Revoke old token, create a new one
+3. Update `PENPOT_ACCESS_TOKEN` in shell profile
+
+### Penpot 400 malformed-json
+**Message:** `Penpot API error: 400 malformed-json`
+**Cause:** API request format mismatch — ExFig version may be outdated
+**Fix:** Update ExFig to the latest version:
+```bash
+brew upgrade DesignPipe/tap/exfig
+```
+
+### Penpot empty export
+**Message:** Export succeeds but no files generated
+**Cause:** Resources are on the canvas but not added to the shared library
+**Fix:** In Penpot, select the asset and add it to the Library (left panel → Assets → click "+" or right-click → "Add to library"). Only library assets are visible to the API.
+
+### Penpot thumbnails only (icons/images)
+**Message:** Icons or images exported as low-resolution PNG thumbnails
+**Cause:** v1 limitation — Penpot has no SVG/PNG render endpoint for components
+**Fix:** This is a known limitation. Design icons at target resolution. For high-quality vector export, consider using Figma for icons/images and Penpot for colors/typography.
+
 ## PKL Configuration Errors
 
 ### PKL evaluation error

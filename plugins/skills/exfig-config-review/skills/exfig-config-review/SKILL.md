@@ -35,6 +35,8 @@ Load `common-issues.md` for the full checklist. Key checks:
 2. **Wrong collection name** — `variablesColors.tokensCollectionName` must match exactly (case-sensitive)
 3. **Empty entries** — platform sections with empty `Listing` produce no output
 4. **Package URI version mismatch** — ensure `amends` URI matches installed ExFig version
+5. **Penpot source without token** — `PENPOT_ACCESS_TOKEN` must be set in environment when using Penpot
+6. **Penpot fileId format** — `penpotSource.fileId` should be a UUID (`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
 
 ### Optimization Opportunities
 1. **DRY violations** — repeated frame names or settings across entries → use `local` Mapping + `for`-generators
@@ -48,6 +50,7 @@ Load `common-issues.md` for the full checklist. Key checks:
 2. **Template renderMode for icons** — iOS icons should use `renderMode = "template"` for tinting
 3. **Vector format for icons** — prefer PDF (iOS), VectorDrawable (Android), SVG (Flutter/Web)
 4. **Separate light/dark files** — if designs use separate files for dark mode, set `darkFileId`
+5. **Penpot library assets** — assets must be added to the shared library in Penpot, not just placed on canvas
 
 ## Step 4: Report
 

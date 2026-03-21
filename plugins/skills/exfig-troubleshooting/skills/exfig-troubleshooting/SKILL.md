@@ -15,6 +15,7 @@ exfig --version
 pkl --version
 swift --version 2>/dev/null
 echo ${FIGMA_PERSONAL_TOKEN:+"Token is set (${#FIGMA_PERSONAL_TOKEN} chars)"} || echo "Token NOT set"
+echo ${PENPOT_ACCESS_TOKEN:+"Penpot token set"} || echo "Penpot token NOT set"
 ```
 
 ### Config
@@ -43,6 +44,9 @@ Match the error against the catalog. Load `error-catalog.md` for the full refere
 | `No exfig.pkl found` | Missing config | Run `exfig init` |
 | `PKL evaluation error` | Syntax error in config | Run `pkl eval exfig.pkl` for details |
 | `Empty export` | Frame names don't match | Use `exfig_inspect` to check actual names |
+| `PENPOT_ACCESS_TOKEN not set` | Missing env variable | `export PENPOT_ACCESS_TOKEN=xxx` |
+| Penpot `401` | Invalid Penpot token | Regenerate in Penpot Settings → Access Tokens |
+| Penpot empty export | Assets not in library | Add to shared Library in Penpot |
 | `signal code 5` | False positive from xcsift | Run `exfig` directly, not through pipe |
 | Build fails | Stale cache | `swift package clean && swift build` |
 

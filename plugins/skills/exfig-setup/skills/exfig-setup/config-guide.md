@@ -101,6 +101,39 @@ flutter {
 }
 ```
 
+## Penpot Source Config
+
+When using Penpot instead of Figma, configure `penpotSource` on each entry instead of `figma`:
+
+```pkl
+amends "package://github.com/DesignPipe/exfig/releases/download/v2.0.0/exfig@2.0.0#/ExFig.pkl"
+
+import "package://github.com/DesignPipe/exfig/releases/download/v2.0.0/exfig@2.0.0#/iOS.pkl"
+import "package://github.com/DesignPipe/exfig/releases/download/v2.0.0/exfig@2.0.0#/Common.pkl"
+
+ios {
+  colors = new Listing {
+    new iOS.ColorsEntry {
+      penpotSource = new Common.PenpotSource {
+        fileId = "FILE_UUID"
+        // baseUrl = "https://penpot.mycompany.com/"  // if self-hosted
+        pathFilter = "Brand"  // optional — filter by path prefix
+      }
+    }
+  }
+  icons = new Listing {
+    new iOS.IconsEntry {
+      penpotSource = new Common.PenpotSource {
+        fileId = "FILE_UUID"
+      }
+      assetsFolder = "Icons"
+    }
+  }
+}
+```
+
+**Note:** No `figma` section is needed when using only Penpot sources. Different entries can use different sources (some Figma, some Penpot) in the same config.
+
 ## Validation
 
 Validate config without running exports:

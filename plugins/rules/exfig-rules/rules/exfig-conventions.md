@@ -42,13 +42,22 @@ These rules apply when working in projects that use ExFig for Figma design expor
 - Use `--force` to ignore cache when needed
 - Pin ExFig version in CI to avoid breaking changes
 - Store `FIGMA_PERSONAL_TOKEN` as a repository secret, never in code
+- Store `PENPOT_ACCESS_TOKEN` as a repository secret when using Penpot source
 
-## Figma Organization
+## Design Source Organization
 
+### Figma
 - Use consistent frame names that match config `figmaFrameName` values
 - Group related icons in dedicated frames (e.g., "Navigation", "Actions")
 - Use Figma Variables for colors (preferred over color styles) — supports themes/modes
 - Keep a separate dark mode file or use variable modes for dark colors
+
+### Penpot
+- Add all exportable assets to the shared **Library** (not just on canvas)
+- Use path groups for organization: `Brand/Primary`, `Icons/Navigation/arrow-left`
+- Use `pathFilter` in config to select specific path prefixes
+- Typography requires fontSize to be set (styles without it are skipped)
+- v1: components export as raster thumbnails only — design at target resolution
 
 ## PKL Config Best Practices
 
