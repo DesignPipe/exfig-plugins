@@ -88,10 +88,10 @@ brew upgrade DesignPipe/tap/exfig
 **Cause:** Resources are on the canvas but not added to the shared library
 **Fix:** In Penpot, select the asset and add it to the Library (left panel → Assets → click "+" or right-click → "Add to library"). Only library assets are visible to the API.
 
-### Penpot thumbnails only (icons/images)
-**Message:** Icons or images exported as low-resolution PNG thumbnails
-**Cause:** v1 limitation — Penpot has no SVG/PNG render endpoint for components
-**Fix:** This is a known limitation. Design icons at target resolution. For high-quality vector export, consider using Figma for icons/images and Penpot for colors/typography.
+### Penpot SVG reconstruction failed
+**Message:** Component 'X' — failed to reconstruct SVG, skipping
+**Cause:** Component's shape tree could not be converted to SVG. May happen with complex effects (blur, shadow, image fills) or components without `mainInstanceId`.
+**Fix:** Ensure the component has been opened in the Penpot editor at least once (this generates `mainInstanceId`). For complex components, simplify shapes or flatten to paths in Penpot.
 
 ## PKL Configuration Errors
 

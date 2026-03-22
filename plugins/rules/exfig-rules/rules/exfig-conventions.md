@@ -57,7 +57,8 @@ These rules apply when working in projects that use ExFig for Figma design expor
 - Use path groups for organization: `Brand/Primary`, `Icons/Navigation/arrow-left`
 - Use `pathFilter` in config to select specific path prefixes
 - Typography requires fontSize to be set (styles without it are skipped)
-- v1: components export as raster thumbnails only — design at target resolution
+- Icons/images exported as SVG via shape tree reconstruction — supports SVG, PNG (any scale), PDF
+- For best SVG quality, use simple shapes (path, rect, circle) — complex effects (blur, shadow) are not yet rendered
 
 ## PKL Config Best Practices
 

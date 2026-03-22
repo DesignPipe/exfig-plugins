@@ -125,14 +125,18 @@ ios {
     new iOS.IconsEntry {
       penpotSource = new Common.PenpotSource {
         fileId = "FILE_UUID"
+        // pathFilter = "Icons / Actions"  // optional — filter by component path
       }
+      figmaFrameName = "Icons"  // path prefix filter (same field as Figma)
+      format = "svg"            // svg or pdf — SVG reconstructed from shape tree
       assetsFolder = "Icons"
+      nameStyle = "camelCase"
     }
   }
 }
 ```
 
-**Note:** No `figma` section is needed when using only Penpot sources. Different entries can use different sources (some Figma, some Penpot) in the same config.
+**Note:** No `figma` section is needed when using only Penpot sources. Different entries can use different sources (some Figma, some Penpot) in the same config. Icons and images are exported as **vector SVG** via shape tree reconstruction — supports SVG, PNG (any scale), and PDF output.
 
 ## Validation
 
