@@ -10,11 +10,12 @@ The ExFig MCP server provides 5 tools for working with Figma design resources di
 ## Available Tools
 
 ### exfig_validate (no Figma token needed)
-Validate a PKL configuration file. Returns platform summary, entry counts, file IDs.
+Validate a PKL configuration file. Returns platform summary, entry counts, file IDs, and dark mode approaches configured.
 
 ```
 Use: Check if exfig.pkl is valid before running exports
 Input: config_path (optional, auto-detects exfig.pkl)
+Output includes: dark_mode array (e.g., ["darkFileId", "variablesDarkMode"])
 ```
 
 ### exfig_tokens_info (no Figma token needed)
@@ -86,6 +87,19 @@ Input:
 2. exfig_download with resource_type=colors, format=raw → raw RGBA values
 ```
 
+### 4. Export icons with dark mode via Variable Modes
+```
+1. exfig_validate → check dark_mode includes "variablesDarkMode"
+2. exfig_export with resource_type=icons → exports light + dark SVGs
+```
+When `variablesDarkMode` is configured on icon entries, `exfig_export` automatically generates
+dark SVG variants by resolving Figma Variable bindings. No separate dark file needed.
+
+Three mutually exclusive dark mode approaches:
+- `darkFileId` — separate Figma file for dark icons (global `figma` section)
+- `suffixDarkMode` — name suffix splitting (global on `common.icons`)
+- `variablesDarkMode` — Figma Variable Modes (per-entry on icon entries, recommended)
+
 ## Troubleshooting
 
 | Error | Cause | Fix |
@@ -94,3 +108,5 @@ Input:
 | "No exfig.pkl found" | No config in current dir | Run `exfig init` or specify `config_path` |
 | "Config file not found" | Wrong path | Check the `config_path` parameter |
 | Rate limit (429) | Too many Figma API calls | Wait and retry, or reduce `rate_limit` param |
+| Dark icons empty | Missing `variablesFileId` for library vars | Set `variablesFileId` in `variablesDarkMode` config |
+| Dark icons empty (single-file) | Wrong collection/mode names (case-sensitive) | Check names in Figma Variables panel |
