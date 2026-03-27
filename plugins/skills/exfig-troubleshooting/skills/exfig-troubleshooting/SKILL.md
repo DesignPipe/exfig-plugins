@@ -48,6 +48,9 @@ Match the error against the catalog. Load `error-catalog.md` for the full refere
 | Penpot `401` | Invalid Penpot token | Regenerate in Penpot Settings → Access Tokens |
 | Penpot empty export | Assets not in library | Add to shared Library in Penpot |
 | `signal code 5` | False positive from xcsift | Run `exfig` directly, not through pipe |
+| Dark icons empty | Missing `variablesFileId` for library vars | Set `variablesFileId` to library file ID |
+| Dark icons empty (single-file) | Wrong collection/mode names | Check names in Figma Variables panel (case-sensitive) |
+| `No dark color found` warnings | Variable alias chain unresolved | Check `--verbose` logs; verify `variablesFileId` or `primitivesModeName` |
 | Build fails | Stale cache | `swift package clean && swift build` |
 
 ## Step 3: Fix

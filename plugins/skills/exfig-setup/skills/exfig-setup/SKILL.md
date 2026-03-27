@@ -147,6 +147,18 @@ Based on discovery results, suggest:
 - Color variable collections to use
 - Typography styles to include
 - Output directories matching project structure
+- **Dark mode approach for icons** — ask the user how they handle dark mode:
+  - **Separate Figma file** → set `figma.darkFileId`
+  - **Name suffix** (e.g., `icon_dark`) → set `common.icons.suffixDarkMode`
+  - **Figma Variable Modes** → set `variablesDarkMode` per icon entry:
+    ```pkl
+    variablesDarkMode = new Common.VariablesDarkMode {
+      collectionName = "DesignTokens"    // exact collection name from Figma
+      lightModeName = "Light"            // exact light mode name
+      darkModeName = "Dark"              // exact dark mode name
+      // variablesFileId = "LIB_ID"      // only if vars reference external library
+    }
+    ```
 
 ## Phase 5: First Export & Validation
 

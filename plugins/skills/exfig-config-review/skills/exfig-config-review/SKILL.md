@@ -38,6 +38,9 @@ Load `common-issues.md` for the full checklist. Key checks:
 5. **Penpot source without token** — `PENPOT_ACCESS_TOKEN` must be set in environment when using Penpot
 6. **Penpot fileId format** — `penpotSource.fileId` should be a UUID (`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
 
+7. **Variable dark mode misconfiguration** — `variablesDarkMode` must not conflict with `darkFileId` or `suffixDarkMode`; `variablesFileId` required for cross-file variable resolution
+8. **Variable dark mode on non-Figma source** — `variablesDarkMode` only works with Figma, ignored for Penpot/tokens-file
+
 ### Optimization Opportunities
 1. **DRY violations** — repeated frame names or settings across entries → use `local` Mapping + `for`-generators
 2. **Missing platforms** — project has Android files but no `android` section in config
@@ -50,7 +53,8 @@ Load `common-issues.md` for the full checklist. Key checks:
 2. **Template renderMode for icons** — iOS icons should use `renderMode = "template"` for tinting
 3. **Vector format for icons** — prefer PDF (iOS), VectorDrawable (Android), SVG (Flutter/Web)
 4. **Separate light/dark files** — if designs use separate files for dark mode, set `darkFileId`
-5. **Penpot library assets** — assets must be added to the shared library in Penpot, not just placed on canvas
+5. **Variable-mode dark icons** — if Figma uses Variable Modes for theming, use `variablesDarkMode` on icon entries instead of `darkFileId` or `suffixDarkMode`. Supports both single-file (all variables in one file) and cross-file (library variables via `variablesFileId`) setups
+6. **Penpot library assets** — assets must be added to the shared library in Penpot, not just placed on canvas
 
 ## Step 4: Report
 
