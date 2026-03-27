@@ -136,6 +136,62 @@ sudo apt-get install libpng-dev libwebp-dev
 swift build
 ```
 
+## Variable Dark Mode Errors
+
+### Dark icons export produces empty result (cross-file)
+**Message:** Warnings like `No dark color found for variable X` or zero dark icons in export summary
+**Cause:** Variables reference an external Figma library, but `variablesFileId` is not set. Variable IDs are file-scoped — alias targets from the icons file can't be resolved in the library file without cross-file name matching.
+**Fix:**
+```pkl
+variablesDarkMode = new Common.VariablesDarkMode {
+  collectionName = "DesignTokens"
+  lightModeName = "Light"
+  darkModeName = "Dark"
+  variablesFileId = "LIBRARY_FILE_ID"  // add library file ID
+}
+```
+Find the library file ID from the Figma URL: `figma.com/design/[FILE_ID]/...`
+
+### Dark icons export produces empty result (single-file)
+**Message:** Zero dark icons in export summary, no warnings
+**Cause:** Collection name or mode names don't match Figma exactly (case-sensitive)
+**Fix:**
+1. Open Figma → Variables panel → check exact collection name, light mode name, dark mode name
+2. Update config to match exactly:
+```pkl
+variablesDarkMode = new Common.VariablesDarkMode {
+  collectionName = "DesignTokens"  // must match exactly
+  lightModeName = "Light"          // must match exactly
+  darkModeName = "Dark"            // must match exactly
+}
+```
+Run with `--verbose` to see which variables ExFig finds and why they don't match.
+
+### Variable alias chain resolution fails
+**Message:** `No dark color found for variable X` in verbose output
+**Cause:** Variable alias targets can't be resolved — the alias chain points to variables in a collection whose mode can't be matched
+**Fix:**
+- If using a primitives collection with a different mode structure, set `primitivesModeName`:
+```pkl
+variablesDarkMode = new Common.VariablesDarkMode {
+  collectionName = "DesignTokens"
+  lightModeName = "Light"
+  darkModeName = "Dark"
+  primitivesModeName = "Value"  // mode name in the primitives collection
+}
+```
+- If variables reference an external library, set `variablesFileId` (see above)
+
+### variablesDarkMode conflicts with other dark mode approaches
+**Message:** Unexpected dark icon output or duplicated dark variants
+**Cause:** Multiple dark mode approaches active simultaneously
+**Fix:** Use only ONE approach per entry:
+- `figma.darkFileId` — separate Figma file (global)
+- `common.icons.suffixDarkMode` — name suffix splitting (global)
+- `variablesDarkMode` on `FrameSource` — variable bindings (per-entry)
+
+Remove the unused approaches to avoid conflicts.
+
 ## Export Errors
 
 ### deleted variables in output

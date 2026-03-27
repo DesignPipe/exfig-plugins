@@ -127,6 +127,90 @@ penpotSource = new Common.PenpotSource {
 ```
 If export is empty, try removing `pathFilter` first to verify assets exist in the library.
 
+## Variable Dark Mode Issues
+
+### Conflicting dark mode approaches
+```pkl
+// BAD — multiple dark mode approaches on the same entry
+new iOS.IconsEntry {
+  figmaFrameName = "Icons"
+  variablesDarkMode = new Common.VariablesDarkMode {
+    collectionName = "Tokens"
+    lightModeName = "Light"
+    darkModeName = "Dark"
+  }
+}
+// ... combined with global:
+common {
+  icons {
+    suffixDarkMode = new Common.SuffixDarkMode { suffix = "_dark" }
+  }
+}
+```
+Three dark mode approaches are mutually exclusive per entry:
+1. `darkFileId` — separate Figma file for dark icons (global `figma` section)
+2. `suffixDarkMode` — splits by name suffix (global on `common.icons`)
+3. `variablesDarkMode` — Figma Variable bindings (per-entry on `FrameSource`)
+
+Using more than one on the same entry produces unpredictable results.
+
+### Single-file mode (all variables in one file)
+```pkl
+// GOOD — simplest case: semantic + primitive variables in the same Figma file
+variablesDarkMode = new Common.VariablesDarkMode {
+  collectionName = "DesignTokens"
+  lightModeName = "Light"
+  darkModeName = "Dark"
+  // variablesFileId omitted — defaults to entry's figmaFileId
+}
+```
+When all variables (both semantic tokens and primitive color values) live in the same Figma file as the icons, you don't need `variablesFileId`. ExFig resolves the entire alias chain from the entry's `figmaFileId`.
+
+If you have a separate collection for primitive values, set `primitivesModeName` to the mode containing resolved colors (e.g., `"Value"`).
+
+### Cross-file mode (variables reference external library)
+```pkl
+// BAD — variables reference an external library but no library file ID set
+variablesDarkMode = new Common.VariablesDarkMode {
+  collectionName = "DesignTokens"
+  lightModeName = "Light"
+  darkModeName = "Dark"
+  // variablesFileId is missing — alias targets from library won't resolve
+}
+
+// GOOD — library file ID specified for cross-file resolution
+variablesDarkMode = new Common.VariablesDarkMode {
+  collectionName = "DesignTokens"
+  lightModeName = "Light"
+  darkModeName = "Dark"
+  variablesFileId = "LIB_FILE_ID"  // library containing primitive values
+}
+```
+Figma variable IDs are file-scoped — alias targets from the icons file can't be found by ID in the library file. When `variablesFileId` is set, ExFig loads variables from BOTH files and matches by variable **name** (not ID) and mode **name** (not modeId) across files.
+
+**How to find the library file ID:** Open the library file in Figma browser → extract ID from URL: `figma.com/design/[FILE_ID]/...`
+
+### Wrong collection or mode names
+```pkl
+// BAD — names don't match Figma exactly (case-sensitive)
+variablesDarkMode = new Common.VariablesDarkMode {
+  collectionName = "designtokens"  // Figma has "DesignTokens"
+  lightModeName = "light"          // Figma has "Light"
+  darkModeName = "dark"            // Figma has "Dark"
+}
+```
+Collection and mode names are case-sensitive and must match Figma exactly. Use `exfig_inspect` with `resource_type=colors` or check the Figma Variables panel to verify names.
+
+### variablesDarkMode on non-Figma source
+```pkl
+// BAD — variablesDarkMode only works with Figma
+new iOS.IconsEntry {
+  penpotSource = new Common.PenpotSource { fileId = "..." }
+  variablesDarkMode = new Common.VariablesDarkMode { ... }  // ignored
+}
+```
+`variablesDarkMode` uses the Figma Variables API — it has no effect on Penpot or tokens-file sources.
+
 ## Optimization Suggestions
 
 ### DRY with local Mapping
